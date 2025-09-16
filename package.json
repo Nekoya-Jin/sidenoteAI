@@ -1,0 +1,131 @@
+{
+  "name": "sidememo",
+  "displayName": "SideMemo",
+  "publisher": "nekoya",
+  "description": "A sidebar memo extension for VS Code",
+  "version": "0.0.7",
+  "engines": {
+    "vscode": "^1.102.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "memo",
+    "notes",
+    "markdown",
+    "webview",
+    "sidebar",
+    "productivity",
+    "ai",
+    "gemini",
+    "summarize"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/sidememo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/sidememo/issues"
+  },
+  "homepage": "https://github.com/your-org/sidememo#readme",
+  "license": "MIT",
+  "main": "./dist/extension.js",
+  "icon": "media/icon.png",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "sidememo",
+          "title": "SideMemo",
+          "icon": "media/sidememo-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "sidememo": [
+        {
+          "id": "sidememo.memoView",
+          "name": "SideMemo",
+          "type": "webview",
+          "icon": "media/sidememo-icon.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "sidememo.openMemo",
+        "title": "Open Memo",
+        "icon": "$(notebook)"
+      },
+      {
+        "command": "sidememo.clearMemo",
+        "title": "Clear Memo",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "sidememo.togglePreview",
+        "title": "Toggle Preview",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "sidememo.openSummarize",
+        "title": "Summarize (Gemini)",
+        "icon": "$(wand)"
+      },
+      {
+        "command": "sidememo.openSettings",
+        "title": "Settings",
+        "icon": "$(gear)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "sidememo.togglePreview",
+          "when": "view == sidememo.memoView",
+          "group": "navigation@1"
+        },
+        {
+          "command": "sidememo.openSummarize",
+          "when": "view == sidememo.memoView",
+          "group": "navigation@2"
+        },
+        {
+          "command": "sidememo.openSettings",
+          "when": "view == sidememo.memoView",
+          "group": "navigation@3"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build:webview": "node esbuild.webview.js --production",
+    "watch:webview": "node esbuild.webview.js --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "watch": "webpack --watch & node esbuild.webview.js --watch",
+    "compile": "webpack",
+    "lint": "eslint src",
+    "build:icon": "node scripts/make-icon.js",
+    "vscode:prepublish": "npm run build:icon && npm run build:webview && npm run package"
+  },
+  "devDependencies": {
+    "@types/node": "22.x",
+    "@types/react": "^18.3.7",
+    "@types/react-dom": "^18.3.0",
+    "@types/vscode": "^1.102.0",
+    "@typescript-eslint/eslint-plugin": "^8.42.0",
+    "@typescript-eslint/parser": "^8.42.0",
+    "@vscode/vsce": "^3.6.0",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.34.0",
+    "marked": "^12.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.2",
+    "webpack": "^5.101.3",
+    "webpack-cli": "^6.0.1",
+    "sharp": "^0.33.5"
+  }
+}

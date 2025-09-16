@@ -1,0 +1,7 @@
+Safe to delete after AppContext migration:
+- context/NotesContext.tsx
+- context/SettingsContext.tsx
+- context/SummarizeContext.tsx
+
+Also unused:
+- hooks/useDebouncedEffect.ts (not imported anywhere)
