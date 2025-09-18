@@ -1,15 +1,16 @@
 import * as vscode from 'vscode';
 import { MemoViewProvider } from './memoViewProvider';
 
-export function activate(context: vscode.ExtensionContext) {
-	console.log('SideMemo extension is now active!');
+export function activate(context: vscode.ExtensionContext)
+{
+	console.log('SideNoteAI extension is now active!');
 
 	// Create memo view provider
 	const memoViewProvider = new MemoViewProvider(context);
 	
 	// Register webview view provider
 	const webviewProvider = vscode.window.registerWebviewViewProvider(
-		'sidememo.memoView',
+		'sidenoteAI.memoView',
 		memoViewProvider,
 		{
 			webviewOptions: {
@@ -19,23 +20,28 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	// Register commands
-	const openMemoCommand = vscode.commands.registerCommand('sidememo.openMemo', () => {
+	const openMemoCommand = vscode.commands.registerCommand('sidenoteAI.openMemo', () =>
+	{
 		memoViewProvider.openMemo();
 	});
 
-	const clearMemoCommand = vscode.commands.registerCommand('sidememo.clearMemo', () => {
+	const clearMemoCommand = vscode.commands.registerCommand('sidenoteAI.clearMemo', () =>
+	{
 		memoViewProvider.clearMemo();
 	});
 
-	const togglePreviewCommand = vscode.commands.registerCommand('sidememo.togglePreview', () => {
+	const togglePreviewCommand = vscode.commands.registerCommand('sidenoteAI.togglePreview', () =>
+	{
 		memoViewProvider.postToWebview({ command: 'togglePreview' });
 	});
 
-	const summarizeCommand = vscode.commands.registerCommand('sidememo.openSummarize', () => {
+	const summarizeCommand = vscode.commands.registerCommand('sidenoteAI.openSummarize', () =>
+	{
 		memoViewProvider.postToWebview({ command: 'openSummarize' });
 	});
 
-	const settingsCommand = vscode.commands.registerCommand('sidememo.openSettings', () => {
+	const settingsCommand = vscode.commands.registerCommand('sidenoteAI.openSettings', () =>
+	{
 		memoViewProvider.postToWebview({ command: 'openSettings' });
 	});
 
@@ -50,4 +56,5 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 }
 
-export function deactivate() {}
+export function deactivate()
+{}

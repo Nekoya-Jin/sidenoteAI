@@ -7,7 +7,7 @@ import { MessageRouter } from './webview/messageRouter';
 import { buildHtml } from './webview/htmlRenderer';
 
 export class MemoViewProvider implements vscode.WebviewViewProvider {
-    public static readonly viewType = 'sidememo.memoView';
+    public static readonly viewType = 'sidenoteAI.memoView';
     private static readonly DEFAULT_PROMPT = DEFAULT_SUMMARY_PROMPT;
 
     private _view?: vscode.WebviewView;
@@ -56,8 +56,8 @@ export class MemoViewProvider implements vscode.WebviewViewProvider {
         });
         this._router.on('requestSummary', async (m) => {
             const userText: string = m.text ?? '';
-            const apiKey = await this._context.secrets.get('sidememo.geminiApiKey');
-            const prompt = this._context.globalState.get<string>('sidememo.prompt', MemoViewProvider.DEFAULT_PROMPT);
+            const apiKey = await this._context.secrets.get('sidenoteAI.geminiApiKey');
+            const prompt = this._context.globalState.get<string>('sidenoteAI.prompt', MemoViewProvider.DEFAULT_PROMPT);
             if (!apiKey) {
                 webviewView.webview.postMessage({ command: 'summaryError', message: 'Gemini API Key is not set.' });
                 return;

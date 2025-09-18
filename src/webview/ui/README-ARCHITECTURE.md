@@ -1,4 +1,4 @@
-SideMemo Webview UI Architecture (brief)
+SideNoteAI Webview UI Architecture (brief)
 
 - App.tsx
   - Wraps with AppProvider (aggregated context) and renders InnerApp

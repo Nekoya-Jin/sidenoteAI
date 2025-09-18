@@ -240,7 +240,7 @@ export class NotesService
     return [
       '# My Memo',
       '',
-      'Welcome to SideMemo! This starter template showcases common Markdown features.',
+      'Welcome to SideNoteAI! This starter template showcases common Markdown features.',
       '',
       '## Today',
       '- Date: ' + today,
@@ -279,7 +279,7 @@ export class NotesService
       '- Link: [VS Code](https://code.visualstudio.com)',
       '- Image:',
       '',
-      '![SideMemo](https://via.placeholder.com/800x300?text=SideMemo)',
+      '![SideNoteAI](https://via.placeholder.com/800x300?text=SideNoteAI)',
       '',
       '---',
       '',

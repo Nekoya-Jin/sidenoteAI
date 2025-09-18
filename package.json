@@ -1,8 +1,8 @@
 {
-  "name": "sidememo",
-  "displayName": "SideMemo",
+  "name": "sidenoteai",
+  "displayName": "SideNoteAI",
   "publisher": "nekoya",
-  "description": "A sidebar memo extension for VS Code",
+  "description": "A sidebar AI-powered memo extension for VS Code",
   "version": "0.0.7",
   "engines": {
     "vscode": "^1.102.0"
@@ -23,12 +23,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/sidememo.git"
+    "url": "https://github.com/your-org/sidenoteai.git"
   },
   "bugs": {
-    "url": "https://github.com/your-org/sidememo/issues"
+    "url": "https://github.com/your-org/sidenoteai/issues"
   },
-  "homepage": "https://github.com/your-org/sidememo#readme",
+  "homepage": "https://github.com/your-org/sidenoteai#readme",
   "license": "MIT",
   "main": "./dist/extension.js",
   "icon": "media/icon.png",
@@ -36,45 +36,45 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "sidememo",
-          "title": "SideMemo",
-          "icon": "media/sidememo-icon.svg"
+          "id": "sidenoteAI",
+          "title": "SideNoteAI",
+          "icon": "media/sidenoteAI-icon.svg"
         }
       ]
     },
     "views": {
-      "sidememo": [
+      "sidenoteAI": [
         {
-          "id": "sidememo.memoView",
-          "name": "SideMemo",
+          "id": "sidenoteAI.memoView",
+          "name": "SideNoteAI",
           "type": "webview",
-          "icon": "media/sidememo-icon.svg"
+          "icon": "media/sidenoteAI-icon.svg"
         }
       ]
     },
     "commands": [
       {
-        "command": "sidememo.openMemo",
+        "command": "sidenoteAI.openMemo",
         "title": "Open Memo",
         "icon": "$(notebook)"
       },
       {
-        "command": "sidememo.clearMemo",
+        "command": "sidenoteAI.clearMemo",
         "title": "Clear Memo",
         "icon": "$(trash)"
       },
       {
-        "command": "sidememo.togglePreview",
+        "command": "sidenoteAI.togglePreview",
         "title": "Toggle Preview",
         "icon": "$(eye)"
       },
       {
-        "command": "sidememo.openSummarize",
+        "command": "sidenoteAI.openSummarize",
         "title": "Summarize (Gemini)",
         "icon": "$(wand)"
       },
       {
-        "command": "sidememo.openSettings",
+        "command": "sidenoteAI.openSettings",
         "title": "Settings",
         "icon": "$(gear)"
       }
@@ -82,18 +82,18 @@
     "menus": {
       "view/title": [
         {
-          "command": "sidememo.togglePreview",
-          "when": "view == sidememo.memoView",
+          "command": "sidenoteAI.togglePreview",
+          "when": "view == sidenoteAI.memoView",
           "group": "navigation@1"
         },
         {
-          "command": "sidememo.openSummarize",
-          "when": "view == sidememo.memoView",
+          "command": "sidenoteAI.openSummarize",
+          "when": "view == sidenoteAI.memoView",
           "group": "navigation@2"
         },
         {
-          "command": "sidememo.openSettings",
-          "when": "view == sidememo.memoView",
+          "command": "sidenoteAI.openSettings",
+          "when": "view == sidenoteAI.memoView",
           "group": "navigation@3"
         }
       ]

@@ -1,6 +1,6 @@
-# SideMemo
+# SideNoteAI
 
-SideMemo is a VS Code extension that adds a convenient memo functionality to your sidebar. 
+SideNoteAI is a VS Code extension that adds a convenient AI-enhanced memo functionality to your sidebar. 
 Take quick notes, write documentation, or keep project-specific reminders right within VS Code.
 With an optional Gemini API key, you can generate quick AI-powered summaries of your notes directly inside VS Code.
 
@@ -19,7 +19,7 @@ With an optional Gemini API key, you can generate quick AI-powered summaries of 
 
 ## Usage
 
-1. Click the SideMemo icon in the activity bar
+1. Click the SideNoteAI icon in the activity bar
 2. Create or switch memos using the tabs toolbar
 3. Edit in Markdown; use the toolbar to toggle preview
 4. Click checkboxes in preview to update your task list
@@ -28,11 +28,11 @@ With an optional Gemini API key, you can generate quick AI-powered summaries of 
 
 ## Commands
 
-- SideMemo: Open Memo (`sidememo.openMemo`)
-- SideMemo: Clear Memo (`sidememo.clearMemo`)
-- SideMemo: Toggle Preview (`sidememo.togglePreview`)
-- SideMemo: Summarize (Gemini) (`sidememo.openSummarize`)
-- SideMemo: Settings (`sidememo.openSettings`)
+- SideNoteAI: Open Memo (`sidenoteAI.openMemo`)
+- SideNoteAI: Clear Memo (`sidenoteAI.clearMemo`)
+- SideNoteAI: Toggle Preview (`sidenoteAI.togglePreview`)
+- SideNoteAI: Summarize (Gemini) (`sidenoteAI.openSummarize`)
+- SideNoteAI: Settings (`sidenoteAI.openSettings`)
 
 These also appear as buttons in the view title area.
 
