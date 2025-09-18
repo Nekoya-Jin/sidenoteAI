@@ -1,7 +1,7 @@
 {
   "name": "sidenoteai",
   "displayName": "SideNoteAI",
-  "publisher": "nekoya",
+  "publisher": "nekoyajin",
   "description": "A sidebar AI-powered memo extension for VS Code",
   "version": "0.0.7",
   "engines": {
@@ -23,12 +23,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/sidenoteai.git"
+    "url": "https://github.com/Nekoya-Jin/sidenoteAI.git"
   },
   "bugs": {
-    "url": "https://github.com/your-org/sidenoteai/issues"
+    "url": "https://github.com/Nekoya-Jin/sidenoteAI/issues"
   },
-  "homepage": "https://github.com/your-org/sidenoteai#readme",
+  "homepage": "https://github.com/Nekoya-Jin/sidenoteAI#readme",
   "license": "MIT",
   "main": "./dist/extension.js",
   "icon": "media/icon.png",
