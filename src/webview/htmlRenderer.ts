@@ -1,10 +1,14 @@
-import * as vscode from 'vscode';
-import { getNonce } from '../utils/nonce';
+import * as vscode from "vscode";
+import { getNonce } from "../utils/nonce";
 
-export function buildHtml(extensionUri: vscode.Uri, webview: vscode.Webview)
+export function buildHtml(extensionUri: vscode.Uri, webview: vscode.Webview) 
 {
-  const styleUri = webview.asWebviewUri(vscode.Uri.joinPath(extensionUri, 'media', 'css', 'style.css'));
-  const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(extensionUri, 'dist', 'webview', 'app.js'));
+  const styleUri = webview.asWebviewUri(
+    vscode.Uri.joinPath(extensionUri, "media", "css", "style.css"),
+  );
+  const scriptUri = webview.asWebviewUri(
+    vscode.Uri.joinPath(extensionUri, "dist", "webview", "app.js"),
+  );
   const nonce = getNonce();
 
   return `<!DOCTYPE html>

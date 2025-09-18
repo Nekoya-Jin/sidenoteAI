@@ -5,15 +5,15 @@
   - 주의: 메모 내용 저장은 상위 훅에서 디바운스/플러시 처리, 노트 전환/삭제 시 즉시 플러시 호출
 */
 
-import React, { useRef } from 'react';
-import { SettingsModal } from './components/SettingsModal';
-import { SummarizeModal } from './components/SummarizeModal';
-import { useMessageBus } from './hooks/useMessageBus';
-import { TabsToolbar } from './components/TabsToolbar';
-import { EditorPane } from './components/EditorPane';
-import { AppProvider, useAppContext } from './context/AppContext';
-import { useMarkdownPreview } from './hooks/useMarkdownPreview';
-import { useMemoContent } from './hooks/useMemoContent';
+import React, { useRef } from "react";
+import { SettingsModal } from "./components/SettingsModal";
+import { SummarizeModal } from "./components/SummarizeModal";
+import { useMessageBus } from "./hooks/useMessageBus";
+import { TabsToolbar } from "./components/TabsToolbar";
+import { EditorPane } from "./components/EditorPane";
+import { AppProvider, useAppContext } from "./context/AppContext";
+import { useMarkdownPreview } from "./hooks/useMarkdownPreview";
+import { useNoteContent } from "./hooks/useNoteContent";
 
 export type VSCodeApi = {
   postMessage: (msg: any) => void;
@@ -21,7 +21,7 @@ export type VSCodeApi = {
   getState?: () => any;
 };
 
-export function App({ vscode }: { vscode: VSCodeApi })
+export function App({ vscode }: { vscode: VSCodeApi }) 
 {
   // 에디터 DOM 접근을 위한 ref (외부 포커스 제어 용도)
   const editorRef = useRef<HTMLTextAreaElement | null>(null);
@@ -33,15 +33,36 @@ export function App({ vscode }: { vscode: VSCodeApi })
   );
 }
 
-function InnerApp({ vscode, editorRef }: { vscode: VSCodeApi; editorRef: React.RefObject<HTMLTextAreaElement> })
+function InnerApp({
+  vscode,
+  editorRef,
+}: {
+  vscode: VSCodeApi;
+  editorRef: React.RefObject<HTMLTextAreaElement>;
+}) 
 {
-  const { notes: notesCtx, settings: settingsCtx, summarize: summarizeCtx } = useAppContext();
-  const { notes: noteList, currentNoteId, createNote, switchNote, renameNote, deleteNote } = notesCtx;
+  const {
+    notes: notesCtx,
+    settings: settingsCtx,
+    summarize: summarizeCtx,
+  } = useAppContext();
+  const {
+    notes: noteList,
+    currentNoteId,
+    createNote,
+    switchNote,
+    renameNote,
+    deleteNote,
+  } = notesCtx;
   const settingsState = settingsCtx.settings;
 
   // 콘텐츠 상태 및 미리보기 HTML 생성 훅
-  const { content: memoContent, setContent: setMemoContent, flushNow } = useMemoContent(vscode, 300);
-  const { isPreview, previewHtml } = useMarkdownPreview(vscode, memoContent);
+  const {
+    content: noteContent,
+    setContent: setNoteContent,
+    flushNow,
+  } = useNoteContent(vscode, 300);
+  const { isPreview, previewHtml } = useMarkdownPreview(vscode, noteContent);
 
   // 확장-웹뷰 메시지 브리지: 설정 저장 완료 신호 처리
   useMessageBus(vscode, {
@@ -50,20 +71,20 @@ function InnerApp({ vscode, editorRef }: { vscode: VSCodeApi; editorRef: React.R
 
   // 노트 관련 콜백: 전환/삭제 전에 즉시 플러시하여 유실 방지
   const onAddNote = () => createNote();
-  const onSwitchNote = (id: string) =>
-  {
+  const onSwitchNote = (id: string) => 
+{
     flushNow();
     switchNote(id);
   };
   const onRenameNote = (id: string, name: string) => renameNote(id, name);
-  const onDeleteNote = (id: string) =>
-  {
+  const onDeleteNote = (id: string) => 
+{
     flushNow();
     deleteNote(id);
   };
 
   return (
-    <div className="memo-container">
+    <div className="note-container">
       <TabsToolbar
         notes={noteList}
         currentNoteId={currentNoteId}
@@ -75,9 +96,9 @@ function InnerApp({ vscode, editorRef }: { vscode: VSCodeApi; editorRef: React.R
 
       <EditorPane
         isPreview={isPreview}
-        content={memoContent}
+        content={noteContent}
         previewHtml={previewHtml}
-        onChange={setMemoContent}
+        onChange={setNoteContent}
         textareaRef={editorRef}
       />
 
@@ -90,7 +111,7 @@ function InnerApp({ vscode, editorRef }: { vscode: VSCodeApi; editorRef: React.R
         onClose={settingsCtx.onClose}
         onReset={settingsCtx.onReset}
         onSave={settingsCtx.onSave}
-        onResetAllMemos={notesCtx.resetAllMemos}
+        onResetAllNotes={notesCtx.resetAllNotes}
       />
 
       <SummarizeModal
@@ -104,7 +125,9 @@ function InnerApp({ vscode, editorRef }: { vscode: VSCodeApi; editorRef: React.R
         error={summarizeCtx.summaryError}
         result={summarizeCtx.summaryResult}
         onClose={summarizeCtx.onClose}
-        onResetPrompt={() => summarizeCtx.onResetPrompt(settingsState?.defaultPrompt)}
+        onResetPrompt={() =>
+          summarizeCtx.onResetPrompt(settingsState?.defaultPrompt)
+        }
         onRun={() => summarizeCtx.onRun(settingsState?.prompt)}
       />
     </div>

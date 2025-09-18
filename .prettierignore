@@ -1,0 +1,11 @@
+# Keep ESLint Allman brace style by ignoring TS/TSX from Prettier
+src/**/*.ts
+src/**/*.tsx
+
+# Build outputs
+/dist/**
+/out/**
+*.vsix
+
+# Dependencies
+/node_modules/**

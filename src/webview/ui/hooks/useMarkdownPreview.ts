@@ -1,9 +1,9 @@
-import { useMemo, useState } from 'react';
-import { marked } from 'marked';
-import type { VSCodeApi } from '../App';
-import { useMessageBus } from './useMessageBus';
+import { useMemo, useState } from "react";
+import { marked } from "marked";
+import type { VSCodeApi } from "../App";
+import { useMessageBus } from "./useMessageBus";
 
-export function useMarkdownPreview(vscode: VSCodeApi, content: string)
+export function useMarkdownPreview(vscode: VSCodeApi, content: string) 
 {
   const [isPreview, setIsPreview] = useState(false);
 
@@ -12,14 +12,14 @@ export function useMarkdownPreview(vscode: VSCodeApi, content: string)
     togglePreview: () => setIsPreview((v) => !v),
   });
 
-  const previewHtml = useMemo(() =>
-  {
-    if (!isPreview)
-    {
-      return '';
+  const previewHtml = useMemo(() => 
+{
+    if (!isPreview) 
+{
+      return "";
     }
     marked.setOptions({ headerIds: false, breaks: true } as any);
-    return String(marked.parse(content || ''));
+    return String(marked.parse(content || ""));
   }, [isPreview, content]);
 
   return { isPreview, setIsPreview, previewHtml } as const;

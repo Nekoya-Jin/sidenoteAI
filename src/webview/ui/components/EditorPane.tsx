@@ -8,7 +8,7 @@
     4) 미리보기 체크박스 클릭 시 원본 마크다운의 해당 Task를 토글해 반영
 */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
 export type EditorPaneProps = {
   isPreview: boolean;
@@ -18,76 +18,90 @@ export type EditorPaneProps = {
   textareaRef: React.RefObject<HTMLTextAreaElement>;
 };
 
-export function EditorPane({ isPreview, content, previewHtml, onChange, textareaRef }: EditorPaneProps)
+export function EditorPane({
+  isPreview,
+  content,
+  previewHtml,
+  onChange,
+  textareaRef,
+}: EditorPaneProps) 
 {
   const previewRef = useRef<HTMLDivElement | null>(null);
 
   // 미리보기 렌더 후 checkbox의 disabled 속성을 제거해 클릭 가능하게 함
-  useEffect(() =>
-  {
-    if (!isPreview || !previewRef.current)
-    {
+  useEffect(() => 
+{
+    if (!isPreview || !previewRef.current) 
+{
       return;
     }
-    const inputs = previewRef.current.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
-    inputs.forEach((el) => el.removeAttribute('disabled'));
+    const inputs = previewRef.current.querySelectorAll<HTMLInputElement>(
+      'input[type="checkbox"]',
+    );
+    inputs.forEach((el) => el.removeAttribute("disabled"));
   }, [isPreview, previewHtml]);
 
   // 체크박스 클릭 → 원본 마크다운의 N번째 Task를 토글
-  const onPreviewClick = (e: React.MouseEvent) =>
-  {
+  const onPreviewClick = (e: React.MouseEvent) => 
+{
     const target = e.target as HTMLElement | null;
-    const input = target?.closest?.('input[type="checkbox"]') as HTMLInputElement | null;
-    if (!input || !previewRef.current)
-    {
+    const input = target?.closest?.(
+      'input[type="checkbox"]',
+    ) as HTMLInputElement | null;
+    if (!input || !previewRef.current) 
+{
       return;
     }
     e.preventDefault();
     e.stopPropagation();
 
-    const all = Array.from(previewRef.current.querySelectorAll<HTMLInputElement>('input[type="checkbox"]'));
+    const all = Array.from(
+      previewRef.current.querySelectorAll<HTMLInputElement>(
+        'input[type="checkbox"]',
+      ),
+    );
     const idx = all.indexOf(input);
-    if (idx < 0)
-    {
+    if (idx < 0) 
+{
       return;
     }
     const next = toggleTaskAtIndex(content, idx);
-    if (next !== content)
-    {
+    if (next !== content) 
+{
       onChange(next);
     }
   };
 
   // 코드 펜스 내부는 건너뛰고, 체크박스 문법만 N번째를 토글
-  function toggleTaskAtIndex(src: string, targetIndex: number): string
-  {
-    const lines = src.split('\n');
+  function toggleTaskAtIndex(src: string, targetIndex: number): string 
+{
+    const lines = src.split("\n");
     let inFence = false;
     let count = 0;
 
-    for (let i = 0; i < lines.length; i++)
-    {
+    for (let i = 0; i < lines.length; i++) 
+{
       const line = lines[i];
 
       // 코드 펜스 토글 (``` 또는 ~~~)
-      if (/^\s*(```|~~~)/.test(line))
-      {
+      if (/^\s*(```|~~~)/.test(line)) 
+{
         inFence = !inFence;
         continue;
       }
-      if (inFence)
-      {
+      if (inFence) 
+{
         continue;
       }
 
       const m = line.match(/^(\s*[-*+] )\[( |x|X)\](.*)$/);
-      if (m)
-      {
-        if (count === targetIndex)
-        {
-          const checked = m[2].toLowerCase() === 'x';
-          lines[i] = `${m[1]}[${checked ? ' ' : 'x'}]${m[3]}`;
-          return lines.join('\n');
+      if (m) 
+{
+        if (count === targetIndex) 
+{
+          const checked = m[2].toLowerCase() === "x";
+          lines[i] = `${m[1]}[${checked ? " " : "x"}]${m[3]}`;
+          return lines.join("\n");
         }
         count += 1;
       }
@@ -100,15 +114,15 @@ export function EditorPane({ isPreview, content, previewHtml, onChange, textarea
       {!isPreview && (
         <textarea
           ref={textareaRef}
-          id="memoEditor"
-          placeholder="Start writing your memo in Markdown..."
+          id="noteEditor"
+          placeholder="Start writing your note in Markdown..."
           value={content}
           onChange={(e) => onChange(e.target.value)}
         />
       )}
       {isPreview && (
         <div
-          id="memoPreview"
+          id="notePreview"
           ref={previewRef}
           className="preview-container"
           onClick={onPreviewClick}

@@ -1,60 +1,75 @@
-import * as vscode from 'vscode';
-import { MemoViewProvider } from './memoViewProvider';
+import * as vscode from "vscode";
+import { NoteViewProvider } from "./noteViewProvider";
 
-export function activate(context: vscode.ExtensionContext)
+export function activate(context: vscode.ExtensionContext) 
 {
-	console.log('SideNoteAI extension is now active!');
+  console.log("SideNoteAI extension is now active!");
 
-	// Create memo view provider
-	const memoViewProvider = new MemoViewProvider(context);
-	
-	// Register webview view provider
-	const webviewProvider = vscode.window.registerWebviewViewProvider(
-		'sidenoteAI.memoView',
-		memoViewProvider,
-		{
-			webviewOptions: {
-				retainContextWhenHidden: true
-			}
-		}
-	);
+  // Create note view provider
+  const noteViewProvider = new NoteViewProvider(context);
 
-	// Register commands
-	const openMemoCommand = vscode.commands.registerCommand('sidenoteAI.openMemo', () =>
-	{
-		memoViewProvider.openMemo();
-	});
+  // Register webview view provider
+  const webviewProvider = vscode.window.registerWebviewViewProvider(
+    "sidenoteAI.memoView",
+    noteViewProvider,
+    {
+      webviewOptions: {
+        retainContextWhenHidden: true,
+      },
+    },
+  );
 
-	const clearMemoCommand = vscode.commands.registerCommand('sidenoteAI.clearMemo', () =>
-	{
-		memoViewProvider.clearMemo();
-	});
+  // Register commands (IDs unchanged for compatibility)
+  const openNoteCommand = vscode.commands.registerCommand(
+    "sidenoteAI.openMemo",
+    () => 
+{
+      noteViewProvider.openNote();
+    },
+  );
 
-	const togglePreviewCommand = vscode.commands.registerCommand('sidenoteAI.togglePreview', () =>
-	{
-		memoViewProvider.postToWebview({ command: 'togglePreview' });
-	});
+  const clearNoteCommand = vscode.commands.registerCommand(
+    "sidenoteAI.clearMemo",
+    () => 
+{
+      noteViewProvider.clearNote();
+    },
+  );
 
-	const summarizeCommand = vscode.commands.registerCommand('sidenoteAI.openSummarize', () =>
-	{
-		memoViewProvider.postToWebview({ command: 'openSummarize' });
-	});
+  const togglePreviewCommand = vscode.commands.registerCommand(
+    "sidenoteAI.togglePreview",
+    () => 
+{
+      noteViewProvider.postToWebview({ command: "togglePreview" });
+    },
+  );
 
-	const settingsCommand = vscode.commands.registerCommand('sidenoteAI.openSettings', () =>
-	{
-		memoViewProvider.postToWebview({ command: 'openSettings' });
-	});
+  const summarizeCommand = vscode.commands.registerCommand(
+    "sidenoteAI.openSummarize",
+    () => 
+{
+      noteViewProvider.postToWebview({ command: "openSummarize" });
+    },
+  );
 
-	// Add to subscriptions
-	context.subscriptions.push(
-		webviewProvider,
-		openMemoCommand,
-		clearMemoCommand,
-		togglePreviewCommand,
-		summarizeCommand,
-		settingsCommand
-	);
+  const settingsCommand = vscode.commands.registerCommand(
+    "sidenoteAI.openSettings",
+    () => 
+{
+      noteViewProvider.postToWebview({ command: "openSettings" });
+    },
+  );
+
+  // Add to subscriptions
+  context.subscriptions.push(
+    webviewProvider,
+    openNoteCommand,
+    clearNoteCommand,
+    togglePreviewCommand,
+    summarizeCommand,
+    settingsCommand,
+  );
 }
 
-export function deactivate()
+export function deactivate() 
 {}

@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useMessageBus } from './useMessageBus';
-import type { VSCodeApi } from '../App';
+import { useState } from "react";
+import { useMessageBus } from "./useMessageBus";
+import type { VSCodeApi } from "../App";
 
 export type SettingsState = {
   hasApiKey: boolean;
@@ -8,39 +8,39 @@ export type SettingsState = {
   defaultPrompt: string;
 };
 
-export function useSettings(vscode: VSCodeApi)
+export function useSettings(vscode: VSCodeApi) 
 {
   const [showSettings, setShowSettings] = useState(false);
   const [settings, setSettings] = useState<SettingsState | null>(null);
-  const [apiKeyInput, setApiKeyInput] = useState('');
+  const [apiKeyInput, setApiKeyInput] = useState("");
   const [savingSettings, setSavingSettings] = useState(false);
 
   useMessageBus(vscode, {
-    openSettings: () =>
-    {
+    openSettings: () => 
+{
       setShowSettings(true);
-      vscode.postMessage({ command: 'getSettings' });
+      vscode.postMessage({ command: "getSettings" });
     },
-    settingsData: (m) =>
-    {
+    settingsData: (m) => 
+{
       const data = m.data ?? null;
       setSettings(data);
-      setApiKeyInput('');
+      setApiKeyInput("");
     },
-    settingsSaved: () =>
-    {
+    settingsSaved: () => 
+{
       setSavingSettings(false);
-      vscode.postMessage({ command: 'getSettings' });
-      setApiKeyInput('');
+      vscode.postMessage({ command: "getSettings" });
+      setApiKeyInput("");
     },
   });
 
   const onClose = () => setShowSettings(false);
-  const onReset = () => vscode.postMessage({ command: 'resetApiKey' });
-  const onSave = () =>
-  {
+  const onReset = () => vscode.postMessage({ command: "resetApiKey" });
+  const onSave = () => 
+{
     setSavingSettings(true);
-    vscode.postMessage({ command: 'saveSettings', apiKey: apiKeyInput });
+    vscode.postMessage({ command: "saveSettings", apiKey: apiKeyInput });
   };
 
   return {

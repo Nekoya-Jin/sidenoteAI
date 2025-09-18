@@ -4,8 +4,8 @@
   - 전달: 노트 목록, 현재 노트, 추가/전환/이름변경/삭제 콜백을 Tabs로 그대로 전달
 */
 
-import React from 'react';
-import { Tabs } from '../Tabs';
+import React from "react";
+import { Tabs } from "../Tabs";
 
 type Note = { id: string; name: string };
 
@@ -18,11 +18,18 @@ type Props = {
   onDelete: (id: string) => void;
 };
 
-export function TabsToolbar({ notes, currentNoteId, onAdd, onSwitch, onRename, onDelete }: Props)
+export function TabsToolbar({
+  notes,
+  currentNoteId,
+  onAdd,
+  onSwitch,
+  onRename,
+  onDelete,
+}: Props) 
 {
   return (
     <div className="toolbar" style={{ gap: 8 }}>
-      <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+      <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
         <Tabs
           notes={notes}
           currentNoteId={currentNoteId}

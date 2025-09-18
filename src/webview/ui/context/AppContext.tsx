@@ -5,11 +5,11 @@
   - 사용: AppProvider로 감싸고, 하위에서 useAppContext()로 접근
 */
 
-import React, { createContext, useContext } from 'react';
-import type { VSCodeApi } from '../App';
-import { useSettings } from '../hooks/useSettings';
-import { useSummarize } from '../hooks/useSummarize';
-import { useNotes } from '../hooks/useNotes';
+import React, { createContext, useContext } from "react";
+import type { VSCodeApi } from "../App";
+import { useSettings } from "../hooks/useSettings";
+import { useSummarize } from "../hooks/useSummarize";
+import { useNotes } from "../hooks/useNotes";
 
 export type AppContextValue = {
   settings: ReturnType<typeof useSettings>;
@@ -19,7 +19,13 @@ export type AppContextValue = {
 
 const AppContext = createContext<AppContextValue | null>(null);
 
-export function AppProvider({ vscode, children }: { vscode: VSCodeApi; children: React.ReactNode })
+export function AppProvider({
+  vscode,
+  children,
+}: {
+  vscode: VSCodeApi;
+  children: React.ReactNode;
+}) 
 {
   const settings = useSettings(vscode);
   const summarize = useSummarize(vscode);
@@ -27,19 +33,15 @@ export function AppProvider({ vscode, children }: { vscode: VSCodeApi; children:
 
   const value: AppContextValue = { settings, summarize, notes };
 
-  return (
-    <AppContext.Provider value={value}>
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
 
-export function useAppContext()
+export function useAppContext() 
 {
   const ctx = useContext(AppContext);
-  if (!ctx)
-  {
-    throw new Error('useAppContext must be used within AppProvider');
+  if (!ctx) 
+{
+    throw new Error("useAppContext must be used within AppProvider");
   }
   return ctx;
 }

@@ -107,7 +107,9 @@
     "compile": "webpack",
     "lint": "eslint src",
     "build:icon": "node scripts/make-icon.js",
-    "vscode:prepublish": "npm run build:icon && npm run build:webview && npm run package"
+    "vscode:prepublish": "npm run build:icon && npm run build:webview && npm run package",
+    "format": "prettier \"**/*.{js,json,md}\" --write",
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@types/node": "22.x",
