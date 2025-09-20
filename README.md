@@ -4,6 +4,9 @@ SideNoteAI is a VS Code extension that adds a convenient AI-enhanced note functi
 Take quick notes, write documentation, or keep project-specific reminders right within VS Code.
 With an optional Gemini API key, you can generate quick AI-powered summaries of your notes directly inside VS Code.
 
+![Image](https://github.com/user-attachments/assets/56594f0c-dbbd-4c55-a0f8-f2ec8e942743)
+
+
 ## Features
 
 - Sidebar Integration: Dedicated note panel in the activity bar
