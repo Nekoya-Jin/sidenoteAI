@@ -9,6 +9,7 @@ import React, { useEffect, useRef, useState } from "react";
        - 메뉴를 닫은 뒤 setTimeout(0) → blur → requestAnimationFrame 순서로 rename 시작을 지연시켜 안전하게 입력창을 표시
     2) rename 입력창이 렌더링된 직후 ref로 focus/select를 보장
     3) Enter/blur 시 저장, Escape 시 취소. blur와 Enter가 동시에 들어올 수 있어 commitLockRef로 중복 실행 방지
+    4) 탭 더블클릭으로도 인라인 rename 시작 지원
 */
 
 type Note = { id: string; name: string };
@@ -273,10 +274,16 @@ return;
               autoFocus
             />
           ) : (
-            // 일반 탭 버튼: 클릭 시 해당 노트로 전환
+            // 일반 탭 버튼: 클릭 시 해당 노트로 전환, 더블클릭 시 이름 변경 시작
             <button
               className={"tab-btn" + (n.id === currentNoteId ? " active" : "")}
               onClick={() => onSwitch(n.id)}
+              onDoubleClick={(e) => 
+{
+                e.preventDefault();
+                // 더블클릭 시 즉시 인라인 rename 시작
+                startRename(n.id, n.name);
+              }}
               data-id={n.id}
               title={n.name}
             >

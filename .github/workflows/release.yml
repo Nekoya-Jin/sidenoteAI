@@ -1,36 +1,48 @@
+# VS Code 확장 자동 배포 워크플로우 이름
 name: Release VS Code Extension
 
 on:
+  # vX.Y.Z 형태의 태그가 푸시되면 자동 실행
   push:
     tags:
       - 'v*.*.*'
+  # Actions 탭에서 수동 실행도 가능하며, version 입력으로 태그 없이도 배포 가능
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to release (e.g., 0.0.9). If set, overrides package.json and skips tag verification.'
+        description: '릴리스할 버전 (예: 0.0.9). 입력 시 package.json 버전을 이 값으로 설정하고 태그 검증을 건너뜁니다.'
         required: false
         type: string
 
 jobs:
   release:
+    # Ubuntu 최신 러너에서 실행
     runs-on: ubuntu-latest
+    # GitHub Release 업로드 등을 위해 콘텐츠 쓰기 권한 필요
     permissions:
       contents: write
 
     steps:
+      # 1) 리포지토리 체크아웃 (태그 포함 전체 이력 가져오기)
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      # 2) Node.js 설치 (빌드/패키징에 사용)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
+      # 3) 의존성 설치 (package-lock.json 기반 고정 설치)
       - name: Install dependencies
         run: npm ci
 
+      # 4) 태그 또는 수동 입력으로부터 버전 설정
+      #    - workflow_dispatch로 version이 들어오면 그 값 사용
+      #    - 아니면 GITHUB_REF(예: refs/tags/v0.0.9)에서 v 제거 후 사용
+      #    - npm version --no-git-tag-version: package.json의 version만 갱신, 태그는 새로 만들지 않음
       - name: Set version from tag or input
         shell: bash
         run: |
@@ -43,15 +55,21 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           npm version "$VERSION" --no-git-tag-version
 
+      # 5) 린트 및 자동수정 (Allman 스타일 포함 규칙 적용)
       - name: Lint
         run: npm run lint:fix
 
+      # 6) 빌드 (아이콘 생성 → 웹뷰 번들 → 확장 번들)
       - name: Build
         run: npm run vscode:prepublish
 
+      # 7) VSIX 패키지 생성 (마켓플레이스에 업로드할 파일)
       - name: Package VSIX
         run: npx vsce package
 
+      # 8) VS Code Marketplace 게시
+      #    - 리포지토리 시크릿 VSCE_PAT가 필요합니다.
+      #    - 생성된 첫 번째 *.vsix 파일을 사용하여 게시합니다.
       - name: Publish to VS Code Marketplace
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
@@ -60,12 +78,15 @@ jobs:
           echo "Publishing $FILE"
           npx vsce publish --packagePath "$FILE"
 
+      # 9) 워크플로우 아티팩트로 VSIX 보관 (나중에 다운로드 가능)
       - name: Upload VSIX artifact
         uses: actions/upload-artifact@v4
         with:
           name: vsix
           path: "*.vsix"
 
+      # 10) GitHub Release 생성 (태그 푸시로 실행된 경우에만)
+      #     - 생성된 *.vsix 파일을 릴리스 자산으로 첨부합니다.
       - name: Create GitHub Release (tag trigger only)
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
