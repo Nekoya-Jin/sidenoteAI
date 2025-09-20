@@ -53,7 +53,13 @@ jobs:
             VERSION="${REF#v}"
           fi
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          npm version "$VERSION" --no-git-tag-version
+          CURRENT=$(node -p "require('./package.json').version")
+          echo "Current: $CURRENT, Target: $VERSION"
+          if [ "$CURRENT" != "$VERSION" ]; then
+            npm version "$VERSION" --no-git-tag-version
+          else
+            echo "Version unchanged, skipping npm version"
+          fi
 
       # 5) 린트 및 자동수정 (Allman 스타일 포함 규칙 적용)
       - name: Lint
