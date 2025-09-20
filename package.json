@@ -3,7 +3,7 @@
   "displayName": "SideNoteAI",
   "publisher": "nekoya",
   "description": "A sidebar AI-powered memo extension for VS Code",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "engines": {
     "vscode": "^1.102.0"
   },
