@@ -3,7 +3,7 @@
   "displayName": "SideNoteAI",
   "publisher": "nekoya",
   "description": "A sidebar AI-powered memo extension for VS Code",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "engines": {
     "vscode": "^1.102.0"
   },
@@ -110,7 +110,6 @@
     "vscode:prepublish": "npm run build:icon && npm run build:webview && npm run package",
     "format": "prettier \"**/*.{js,json,md}\" --write",
     "lint:fix": "eslint . --fix",
-
     "release:patch": "npx vsce publish patch && git tag v$(node -p \"require('./package.json').version\") -f && git push origin v$(node -p \"require('./package.json').version\") --force",
     "release:minor": "npx vsce publish minor && git tag v$(node -p \"require('./package.json').version\") -f && git push origin v$(node -p \"require('./package.json').version\") --force",
     "release:major": "npx vsce publish major && git tag v$(node -p \"require('./package.json').version\") -f && git push origin v$(node -p \"require('./package.json').version\") --force",
