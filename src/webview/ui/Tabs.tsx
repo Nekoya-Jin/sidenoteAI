@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { NOTE_CONSTANTS } from "../constants";
 
 /*
   Tabs 컴포넌트
@@ -83,8 +84,8 @@ export function Tabs({
     const now = Date.now();
     if (now - lastOpenRef.current < 150) 
 {
-return;
-} // 중복 이벤트 디바운스
+      return;
+    } // 중복 이벤트 디바운스
     lastOpenRef.current = now;
     setTargetId(id);
     setMenuPos({ x, y });
@@ -175,12 +176,12 @@ return;
 {
       if (!menuOpen) 
 {
-return;
-}
+        return;
+      }
       if (menuRef.current && menuRef.current.contains(e.target as any)) 
 {
-return;
-} // 메뉴 내부 클릭은 무시
+        return;
+      } // 메뉴 내부 클릭은 무시
       setMenuOpen(false);
     };
     const onKeyDown = (e: KeyboardEvent) => 
@@ -236,9 +237,9 @@ return;
     setEditingId(null);
   };
 
-  // 삭제 가능 여부(노트가 2개 이상일 때만 삭제 허용), 최대 노트 수 제한(예: 3개)
+  // 삭제 가능 여부(노트가 2개 이상일 때만 삭제 허용), 최대 노트 수 제한
   const canDelete = notes.length > 1;
-  const maxReached = notes.length >= 3;
+  const maxReached = notes.length >= NOTE_CONSTANTS.MAX_NOTES;
 
   return (
     <div
@@ -263,7 +264,7 @@ return;
 {
                   commitRename(n.id, n.name);
                 }
- else if (e.key === "Escape") 
+                else if (e.key === "Escape") 
 {
                   cancelRename();
                 }
@@ -357,8 +358,8 @@ return;
                 setMenuOpen(false);
                 if (id) 
 {
-onDelete(id);
-}
+                  onDelete(id);
+                }
               }}
             >
               Delete

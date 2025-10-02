@@ -81,6 +81,8 @@ body {
 
 .preview-container {
   width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
 }
 
 .preview-container h1,
@@ -160,7 +162,7 @@ body {
   margin-top: 0.2em;
 }
 
-.preview-container li.task-item input[type="checkbox"]:checked + .task-label {
+.preview-container li.task-item input[type="checkbox"]:checked+.task-label {
   text-decoration: line-through;
   opacity: 0.7;
 }
@@ -228,6 +230,7 @@ body {
   justify-content: center;
   z-index: 9999;
 }
+
 .modal {
   width: min(640px, 90vw);
   max-height: 80vh;
@@ -239,9 +242,11 @@ body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   padding: 16px;
 }
+
 .modal h3 {
   margin: 0 0 8px;
 }
+
 .modal textarea,
 .modal input[type="text"],
 .modal input[type="password"] {
@@ -254,11 +259,13 @@ body {
   padding: 8px;
   font-family: var(--vscode-editor-font-family);
 }
+
 .modal .hint {
   opacity: 0.8;
   font-size: 12px;
   margin-top: 6px;
 }
+
 .modal-actions {
   margin-top: 12px;
   display: flex;
@@ -275,12 +282,15 @@ body {
   border-radius: 4px;
   cursor: pointer;
 }
+
 .btn:hover {
   filter: brightness(1.02);
 }
+
 .btn:active {
   filter: brightness(0.98);
 }
+
 .btn.stable {
   min-width: 84px;
 }
@@ -290,6 +300,7 @@ body {
   color: var(--vscode-editor-foreground);
   border: 1px solid var(--vscode-input-border);
 }
+
 .btn-secondary:hover {
   background: var(--vscode-toolbar-hoverBackground);
 }
@@ -298,7 +309,9 @@ body {
   display: flex;
   gap: 6px;
   align-items: center;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
 }
 
 .tab-btn {

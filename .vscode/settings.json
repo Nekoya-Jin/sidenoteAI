@@ -1,4 +1,34 @@
 {
+  // 저장 시 자동 포맷 활성화
+  "editor.formatOnSave": true,
+  // ESLint 자동 수정 (저장 시)
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  // TypeScript/JavaScript 기본 포매터를 ESLint로 설정
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  // CSS는 vscode 기본 포매터 사용
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  },
+  // JSON은 vscode 기본 포매터 사용
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
   "mcp.servers": {
     "context7": {
       "type": "stdio",

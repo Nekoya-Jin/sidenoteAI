@@ -5,6 +5,7 @@ import { DEFAULT_SUMMARY_PROMPT } from "./prompts/summaryPrompt";
 import { NotesService } from "./services/notesService";
 import { MessageRouter } from "./webview/messageRouter";
 import { buildHtml } from "./webview/htmlRenderer";
+import { NOTE_CONSTANTS } from "./constants";
 
 export class NoteViewProvider implements vscode.WebviewViewProvider 
 {
@@ -92,7 +93,7 @@ export class NoteViewProvider implements vscode.WebviewViewProvider
           text: result,
         });
       }
- catch (err: any) 
+      catch (err: any) 
 {
         const msg = err?.message ?? String(err);
         webviewView.webview.postMessage({
@@ -122,13 +123,13 @@ export class NoteViewProvider implements vscode.WebviewViewProvider
 {
         this._notesService.createNote(m.name);
       }
- catch (e: any) 
+      catch (e: any) 
 {
         if (e?.message === "MAX_NOTES") 
 {
-          vscode.window.showErrorMessage("You can only create up to 3 memos.");
+          vscode.window.showErrorMessage(`You can only create up to ${NOTE_CONSTANTS.MAX_NOTES} notes.`);
         }
- else 
+        else 
 {
           vscode.window.showErrorMessage(String(e?.message ?? e));
         }
@@ -142,7 +143,7 @@ export class NoteViewProvider implements vscode.WebviewViewProvider
 {
         this._notesService.renameNote(m.id, m.name);
       }
- catch (e: any) 
+      catch (e: any) 
 {
         if (e?.message === "NAME_CONFLICT") 
 {
@@ -150,7 +151,7 @@ export class NoteViewProvider implements vscode.WebviewViewProvider
             "A note with the same name already exists. Please choose a different name.",
           );
         }
- else 
+        else 
 {
           vscode.window.showErrorMessage(String(e?.message ?? e));
         }
@@ -176,13 +177,13 @@ export class NoteViewProvider implements vscode.WebviewViewProvider
         this._notesService.deleteNote(m.id);
         vscode.window.showInformationMessage("Memo deleted!");
       }
- catch (e: any) 
+      catch (e: any) 
 {
         if (e?.message === "LAST_NOTE") 
 {
           vscode.window.showWarningMessage("Cannot delete the only memo.");
         }
- else 
+        else 
 {
           vscode.window.showErrorMessage(String(e?.message ?? e));
         }

@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { NOTE_CONSTANTS, STORAGE_KEYS } from "../constants";
 
 export type Note = { id: string; name: string };
 
@@ -41,11 +42,11 @@ export class NotesService
   // ---------- Commands (with rule enforcement) ----------
   public createNote(desiredName?: string): Note 
 {
-    if (this.notesList.length >= 3) 
+    if (this.notesList.length >= NOTE_CONSTANTS.MAX_NOTES) 
 {
       throw new Error("MAX_NOTES");
     }
-    const base = (desiredName ?? "note").trim() || "note";
+    const base = (desiredName ?? NOTE_CONSTANTS.DEFAULT_NOTE_NAME).trim() || NOTE_CONSTANTS.DEFAULT_NOTE_NAME;
     const name = this.ensureUniqueName(base);
     const id = `note-${Date.now()}`;
     this.notesList.push({ id, name });
@@ -157,7 +158,7 @@ export class NotesService
         }
       }
     }
- else 
+    else 
 {
       // Fallback: clear known keys
       await this.context.workspaceState.update(notesKey, undefined);
